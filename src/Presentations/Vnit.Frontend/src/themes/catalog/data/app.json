@@ -1,0 +1,20 @@
+{
+  "error": 0,
+  "errorMessage": "Th\u00E0nh c\u00F4ng",
+  "data": {
+    "bg": ["https://www.mioto.vn/static/media/banner_home.1aa27cfe.jpg", "https://www.mioto.vn/static/media/def_profile_cover.e559c58c.jpg", "https://www.mioto.vn/static/media/banner_owner.16e6984b.jpg"],
+    "hasNewVersion": 0,
+    "forceUpdate": 0,
+    "startTime": 1532008800000,
+    "endTime": 1532091600000,
+    "startDate": 1531889278403,
+    "endDate": 1545108478403,
+    "callCenter": "19009217",
+    "vid": "CBAKzDb4qB04MpY9",
+    "snotifs": [{
+      "id": "C9JJR73C",
+      "type": 1,
+      "reddot": 0
+    }]
+  }
+}

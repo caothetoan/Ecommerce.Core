@@ -1,0 +1,100 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Vnit.Api</RootNamespace>
+    <AssemblyName>Vnit.Api</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\Catalogs\**" />
+    <Compile Remove="ViewModels\Menus\**" />
+    <Compile Remove="ViewModels\News\**" />
+    <Compile Remove="ViewModels\Pages\**" />
+    <Compile Remove="ViewModels\Users\**" />
+    <Compile Remove="ViewModels\Widgets\**" />
+    <Content Remove="ViewModels\Catalogs\**" />
+    <Content Remove="ViewModels\Menus\**" />
+    <Content Remove="ViewModels\News\**" />
+    <Content Remove="ViewModels\Pages\**" />
+    <Content Remove="ViewModels\Users\**" />
+    <Content Remove="ViewModels\Widgets\**" />
+    <EmbeddedResource Remove="ViewModels\Catalogs\**" />
+    <EmbeddedResource Remove="ViewModels\Menus\**" />
+    <EmbeddedResource Remove="ViewModels\News\**" />
+    <EmbeddedResource Remove="ViewModels\Pages\**" />
+    <EmbeddedResource Remove="ViewModels\Users\**" />
+    <EmbeddedResource Remove="ViewModels\Widgets\**" />
+    <None Remove="ViewModels\Catalogs\**" />
+    <None Remove="ViewModels\Menus\**" />
+    <None Remove="ViewModels\News\**" />
+    <None Remove="ViewModels\Pages\**" />
+    <None Remove="ViewModels\Users\**" />
+    <None Remove="ViewModels\Widgets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\Api\CatalogController.cs" />
+    <Compile Remove="Controllers\Api\CategoryController.cs" />
+    <Compile Remove="Controllers\Api\EmailAccountController.cs" />
+    <Compile Remove="Controllers\Api\EmailMessageController.cs" />
+    <Compile Remove="Controllers\Api\EmailTemplateController.cs" />
+    <Compile Remove="Controllers\Api\LanguageController.cs" />
+    <Compile Remove="Controllers\Api\LocaleStringResourceController.cs" />
+    <Compile Remove="Controllers\Api\LocalizedPropertyController.cs" />
+    <Compile Remove="Controllers\Api\MediaController.cs" />
+    <Compile Remove="Controllers\Api\MenuController.cs" />
+    <Compile Remove="Controllers\Api\NewsCategoryController.cs" />
+    <Compile Remove="Controllers\Api\NewsItemController.cs" />
+    <Compile Remove="Controllers\Api\NewsLetterSubscriptionController.cs" />
+    <Compile Remove="Controllers\Api\OrderController.cs" />
+    <Compile Remove="Controllers\Api\PageController.cs" />
+    <Compile Remove="Controllers\Api\ProductController.cs" />
+    <Compile Remove="Controllers\Api\WidgetController.cs" />
+    <Compile Remove="Extensions\CategoryExtensions.cs" />
+    <Compile Remove="Extensions\EmailSenderExtensions.cs" />
+    <Compile Remove="Extensions\GroupPageExtensions.cs" />
+    <Compile Remove="Extensions\MenuExtensions.cs" />
+    <Compile Remove="Extensions\NewsArticleExtensions.cs" />
+    <Compile Remove="Extensions\NewsCategoryExtensions.cs" />
+    <Compile Remove="Extensions\NewsItemTagExtensions.cs" />
+    <Compile Remove="Extensions\PageExtensions.cs" />
+    <Compile Remove="Extensions\ProductExtensions.cs" />
+    <Compile Remove="Extensions\TagExtensions.cs" />
+    <Compile Remove="Extensions\WidgetExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Catalog\" />
+    <Folder Include="wwwroot\fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\images\products\1.png" />
+    <None Include="wwwroot\images\products\10.png" />
+    <None Include="wwwroot\images\products\11.png" />
+    <None Include="wwwroot\images\products\12.png" />
+    <None Include="wwwroot\images\products\2.png" />
+    <None Include="wwwroot\images\products\3.png" />
+    <None Include="wwwroot\images\products\4.png" />
+    <None Include="wwwroot\images\products\5.png" />
+    <None Include="wwwroot\images\products\6.png" />
+    <None Include="wwwroot\images\products\7.png" />
+    <None Include="wwwroot\images\products\8.png" />
+    <None Include="wwwroot\images\products\9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApplicationCore\ApplicationCore.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Vnit.Services\Vnit.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

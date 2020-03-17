@@ -1,0 +1,199 @@
+<template>
+   <v-container fluid>
+      <v-flex xs12>
+             <v-card>
+                <v-card-title>
+                    <span class="title">{{this.title}}
+                    <v-text-field @keyup.enter="getItems()" append-icon="search" label="Quick Search" single-line hide-details v-model="quickSearch"></v-text-field>
+                    </span>
+                    <v-spacer></v-spacer>
+                    <v-btn class="blue-grey" fab small dark @click.native.stop="rightDrawer = !rightDrawer">
+                    <v-icon>search</v-icon>
+                    </v-btn>
+                    <v-btn class="brown lighten-1" fab small dark @click.native="getItems()">
+                    <v-icon>refresh</v-icon>
+                    </v-btn>
+                    <v-btn class="teal darken-2" fab small dark @click.native="print()">
+                    <v-icon>print</v-icon>
+                    </v-btn>
+                    <v-btn class="deep-orange darken-3" fab small dark @click.native="add">
+                    <v-icon>add</v-icon>
+                    </v-btn>
+                </v-card-title>
+                <Table v-if="loading===false" :headers="headers" :items="items"  :pagination="pagination" @edit="edit" @remove="remove" @getItems="getItems"></Table>
+             </v-card>
+
+        </v-flex>
+
+      <search-panel :rightDrawer="rightDrawer" @cancelSearch="cancelSearch" @searchData="getItems">
+        <v-layout row>
+          <v-flex xs11 offset-xs1>
+            <v-text-field name="name" label="name" light v-model="searchVm.contains.name"></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row>
+          <v-flex xs11 offset-xs1>
+            <v-text-field name="status" label="status" light v-model="searchVm.contains.status"></v-text-field>
+          </v-flex>
+        </v-layout>
+
+      </search-panel>
+    <confirm-dialog :dialog="dialog" :dialogTitle="dialogTitle" :dialogText="dialogText" @onConfirm="onConfirm" @onCancel="onCancel" ></confirm-dialog>
+    <v-snackbar v-if="loading===false" :right="true" :timeout="timeout" :color="mode" v-model="snackbar" >
+      {{ notice }}
+      <v-btn dark flat @click.native="closeSnackbar">Close</v-btn>
+    </v-snackbar>
+    </v-container>
+</template>
+<script>
+/* globals Store */
+import Table from "@/components/Table.vue";
+import SearchPanel from "@/components/SearchPanel.vue";
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import { mapState } from "vuex";
+import { debounce } from "lodash";
+
+export default {
+  components: {
+    Table,
+    SearchPanel,
+    ConfirmDialog
+  },
+  data() {
+    return {
+      dialog: false,
+      dialogTitle: "Confirm",
+      dialogText: "Do you want to delete this article?",
+      rightDrawer: false,
+      right: true,
+      searchData: "",
+      headers: [
+        { text: "Name", value: "Name", sortable: true, mimeType: "text" },
+        { text: "Thumbnail", value: "Thumbnail", mimeType: "image" },
+        { text: "Status", value: "Status", mimeType: "boolean" },
+        {
+          text: "Pageview",
+          value: "Pageview",
+          mimeType: "number",
+          format: "#.###"
+        },
+        {
+          text: "Created Date",
+          value: "CreatedDate",
+          mimeType: "datetime",
+          format: "dd/MM/YYYY HH:mm:ss"
+        }
+      ],
+      searchVm: {
+        contains: {
+          name: "",
+          status: ""
+        },
+        between: {
+          amount: { former: 0, latter: 0 }
+        }
+      },
+      id: "",
+      query: "",
+      snackbarStatus: false,
+      timeout: 2000,
+      color: "",
+      quickSearchFilter: ""
+    };
+  },
+  methods: {
+    print() {
+      window.print();
+    },
+    edit(item) {
+      this.$router.push({ name: "Article", params: { id: item.id } });
+    },
+    add() {
+      this.$router.push("NewArticle");
+    },
+    remove(item) {
+      this.id = item.id;
+      this.dialog = true;
+    },
+    onConfirm() {
+      Store.dispatch("articles/deleteArticle", this.id).then(() => {
+        Store.dispatch("articles/search", this.query, this.pagination);
+        Store.dispatch("articles/closeSnackBar", 2000);
+      });
+      this.dialog = false;
+    },
+    onCancel() {
+      this.id = "";
+      this.dialog = false;
+    },
+    search() {
+      this.rightDrawer = !this.rightDrawer;
+      this.appUtil.buildSearchFilters(this.searchVm);
+      this.query = this.appUtil.buildJsonServerQuery(this.searchVm);
+      this.quickSearch = "";
+      Store.dispatch("articles/search", {
+        query: this.query,
+        pagination: this.pagination
+      });
+    },
+    getItems() {
+      this.query = "";
+      Store.dispatch("articles/getItems", {
+        query: this.quickSearchFilter.toLowerCase(),
+        pagination: this.pagination
+      });
+    },
+    cancelSearch() {
+      this.rightDrawer = false;
+    },
+    closeSnackbar() {
+      Store.commit("articles/setSnackbar", { snackbar: false });
+      Store.commit("articles/setNotice", { notice: "" });
+    },
+    quickSearchItems: debounce(function() {
+      console.log(this.quickSearchFilter);
+      this.quickSearchFilter &&
+        Store.dispatch("articles/quickSearch", {
+          headers: this.headers,
+          qsFilter: this.quickSearchFilter.toLowerCase(),
+          pagination: this.pagination
+        });
+    }, 300)
+  },
+  computed: {
+    ...mapState("articles", {
+      items: "items",
+      pagination: "pagination",
+      loading: "loading",
+      mode: "mode",
+      snackbar: "snackbar",
+      notice: "notice"
+    }),
+    quickSearch: {
+      get: function() {
+        return this.quickSearchFilter;
+      },
+      set: function(val) {
+        this.quickSearchFilter = val;
+        // this.quickSearchFilter && this.quickSearchItems();
+      }
+    },
+    title: {
+      get: function() {
+        return (
+          "Articles " +
+          (this.pagination ? "(" + this.pagination.totalItems + ")" : "")
+        );
+      }
+    }
+  },
+  created() {
+    this.getItems();
+  },
+  mounted() {
+    this.$nextTick(() => {
+      console.log(this.headers);
+    });
+  }
+};
+</script>

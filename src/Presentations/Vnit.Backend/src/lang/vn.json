@@ -1,0 +1,19 @@
+{
+  "common": {
+    "select_lang": "Ngôn ngữ"
+  },
+  "login": {
+    "title": "Đăng nhập",
+    "buttons": {
+      "login": "Đăng nhập"
+    },
+    "input_text": {
+      "email": "Địa chỉ email",
+      "password": "Mật khẩu"
+    },
+    "messages": {
+      "none_account": "Tạo tài khoản mới",
+      "register": "Đăng ký"
+    }
+  }
+}

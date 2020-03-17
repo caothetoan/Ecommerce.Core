@@ -1,0 +1,22 @@
+﻿using Vnit.ApplicationCore.Entities.Users;
+
+namespace Vnit.ApplicationCore.Entities.Courses
+{
+    public enum Grade
+    {
+        A, B, C, D, F
+    }
+
+    public class Enrollment: BaseEntity
+    {
+        public int CourseId { get; set; }
+
+        public int UserId { get; set; }
+
+        public Grade? Grade { get; set; }
+
+        public virtual Course Course { get; set; }
+
+        public virtual User User { get; set; }
+    }
+}
