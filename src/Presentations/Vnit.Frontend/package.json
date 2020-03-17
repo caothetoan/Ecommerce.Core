@@ -19,7 +19,7 @@
     "axios": "^0.16.2",
     "filepond-plugin-file-validate-type": "^1.1.0",
     "filepond-plugin-image-preview": "^1.1.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.13",
     "moment": "^2.22.2",
     "vue": "^2.5.15",
     "vue-filepond": "^2.1.6",
